@@ -57,7 +57,10 @@ registered = Frame(512, 424, 4)
 
 nmax = 10000
 
-
+frames = listener.waitForNewFrame()
+depth = frames["depth"]
+delta = depth.asarray() / 4500.  # float 0-1
+listener.release(frames)
 
 while True:
 
@@ -65,6 +68,16 @@ while True:
     frames = listener.waitForNewFrame()
     depth = frames["depth"]
     di = depth.asarray() / 4500.  # float 0-1
+
+    delta = (delta - di)
+
+
+    np.plot(delta)
+    np.show()
+
+    # timeForArrival = (di/delta)/30
+
+
 
     #print(pos_xa)
 
