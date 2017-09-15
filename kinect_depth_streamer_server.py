@@ -30,8 +30,8 @@ matrix = np.random.random((424, 512))
 # In[106]:
 
 #Size of the resulting matrix
-x_size = 5
-y_size = 4
+x_size = 50
+y_size = 40
 
 def slide_window(img, x_start_stop=[None, None], y_start_stop=[None, None], xy_window=(x_size, y_size), xy_overlap=(0, 0)):
 
@@ -160,8 +160,8 @@ while True:
 
     x_coord = 0
     y_coord = 0
-    y_size = 106
-    x_size = 103
+    y_size = 10
+    x_size = 10
 
     min_matrix = np.zeros((y_size, x_size))
     max_matrix = np.zeros((y_size, x_size))
@@ -180,9 +180,9 @@ while True:
         extract = frame_raw_depth[x[0][1]:x[1][1], x[0][0]:x[1][0]]
         print(extract)
     #print(extract.shape)
-        min_matrix[y_coord, x_coord] = np.amin(extract)
-        max_matrix[y_coord, x_coord] = np.amax(extract)
-        mean_matrix[y_coord, x_coord] = np.mean(extract)
+        min_matrix[x_coord, y_coord] = np.amin(extract)
+        max_matrix[x_coord, y_coord] = np.amax(extract)
+        mean_matrix[x_coord, y_coord] = np.mean(extract)
 
         if y_coord < (y_size-1):
             y_coord = y_coord + 1
@@ -194,8 +194,9 @@ while True:
 
             print(min_matrix.shape)
 #print(min_matrix)
-    print(mean_matrix)
-    #cv2.imshow('frame',frame_normalizes_depth )
+    print(min_matrix)
+
+    cv2.imshow('frame',cv2.resize(min_matrix,(1000,1000)))
 # add this
     if cv2.waitKey(1) & 0xFF == ord('q'):
         break
