@@ -1,0 +1,124 @@
+<html>
+<head>
+</head>
+<body>
+
+<div class="maiboard">
+	<div id="output">0m</div>
+	<img src="background.png"/>
+</div>
+<div class="notification">
+CAUTION
+</div>
+<div class="prediction">
+PREDICTION
+</div>
+
+<style type="text/css">
+<!--
+#output {
+    font-size: 100px;
+    top: 350px;
+    position: absolute;
+    z-index:0;s
+}
+
+.notification {
+    font-size: 1000%;
+    top: 350px;
+    left: 5px;
+    position: absolute;
+    background-color: red;
+    display:none;
+    z-index:3;
+}
+
+.prediction {
+    font-size: 1000%;
+    top: 350px;
+    left: 5px;
+    position: absolute;
+    background-color: yellow;
+    display:none;
+    z-index:1;
+}
+
+
+-->
+</style>
+
+<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+
+<script>
+
+(function() {
+  // websocketサーバアドレスおよびポートを指定
+  var msg = new WebSocket("ws://iaahakers.mybluemix.net/ws/msg");
+  msg.onmessage = function(e) {
+	
+	$("#output").text(e.data);
+	console.log(e.data);
+  }
+
+  
+
+}());
+
+(function() {
+  var pdt = new WebSocket("ws://iaahakers.mybluemix.net/ws/pdt");
+  pdt.onmessage = function(e) {
+	if(e.data!=='0'){
+		$(".prediction").css("display","block")
+	}else{
+		$(".prediction").css("display","none")
+	}
+	$(".prediction").text(e.data);
+	
+	
+	console.log(e.data);
+  }
+}());
+
+(function() {
+  var emg = new WebSocket("ws://iaahakers.mybluemix.net/ws/emg");
+  emg.onmessage = function(e) {
+	if(e.data!=='0'){
+		$(".notification").css("display","block")
+	}else{
+		$(".notification").css("display","none")
+	}
+	$(".notification").text(e.data);
+	
+	
+	console.log(e.data);
+  }
+  
+}());
+
+
+(function() {
+var context = new window.AudioContext();
+
+var ws = new WebSocket('ws://iaahakers.mybluemix.net/ws/voice');
+
+
+
+ws.onmessage = function(evt) {
+    var buffer;
+   
+	
+	soundSource = context.createBufferSource();
+        soundBuffer = context.createBuffer(evt.data, true);
+        soundSource.buffer = soundBuffer;
+	
+
+};
+}());
+
+
+  
+ 
+
+</script>
+</body>
+</html>
