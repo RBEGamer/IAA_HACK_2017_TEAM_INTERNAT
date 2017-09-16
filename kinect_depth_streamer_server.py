@@ -171,14 +171,14 @@ while True:
 
 
 # In[108]:
-    print(len(windows_list))
-    print(windows_list[0][0])
+    #print(len(windows_list))
+    #print(windows_list[0][0])
 
     for x in windows_list:
 
     #extract =  matrix[x[0][0]:x[1][0], x[0][1]:x[1][1]]
         extract = frame_raw_depth[x[0][1]:x[1][1], x[0][0]:x[1][0]]
-        print(extract)
+        #print(extract)
     #print(extract.shape)
         min_matrix[x_coord, y_coord] = np.amin(extract)
         max_matrix[x_coord, y_coord] = np.amax(extract)
@@ -186,17 +186,56 @@ while True:
 
         if y_coord < (y_size-1):
             y_coord = y_coord + 1
-            print("Coordinate y is: ", y_coord)
+            #print("Coordinate y is: ", y_coord)
         else:
             y_coord = 0
             x_coord = x_coord + 1
-            print("Coordinate x is: ", x_coord)
+            #print("Coordinate x is: ", x_coord)
 
-            print(min_matrix.shape)
+            #print(min_matrix.shape)
 #print(min_matrix)
-    print(min_matrix)
+    #print(mean_matrix)
 
-    cv2.imshow('frame',cv2.resize(min_matrix,(1000,1000)))
+    cv2.imshow('frame',cv2.resize(mean_matrix,(512,512)))
+    rectangle = np.zeros((512, 424), dtype=np.uint8)
+    rectangle = cv2.rectangle(mean_matrix, (0, 0), (424, 512), (255, 0, 0), 2)
+    #result = np.zeros((512, 424), dtype=np.uint8)
+    #cv2.addWeighted(rectangle, 0.5, mean_matrix, 0.5, mean_matrix)
+    cv2.imshow('result', rectangle)
+
+    left_flag = 0
+    middle_flag = 0
+    right_flag = 0
+
+    for x in range(3):
+        for y in range(y_size):
+            if mean_matrix[y][x]>100:
+                if mean_matrix[y][x]<1000:
+                    left_flag = left_flag +1
+
+    for x in range(3,7):
+        for y in range(y_size):
+            if mean_matrix[y][x]>100:
+                if mean_matrix[y][x]<1000:
+                    middle_flag = middle_flag +1
+
+    for x in range(7, 10):
+        for y in range(y_size):
+            if mean_matrix[y][x]>100:
+                if mean_matrix[y][x]<1000:
+                    right_flag = right_flag +1
+    print(right_flag)
+    if left_flag >28:
+        print("There is something in the left")
+        left_flag=0
+    if middle_flag >33:
+        print("There is something in the middle")
+        middle_flag=0
+    if right_flag >28:
+        print("There is something in the right")
+        right_flag=0
+
+
 # add this
     if cv2.waitKey(1) & 0xFF == ord('q'):
         break
