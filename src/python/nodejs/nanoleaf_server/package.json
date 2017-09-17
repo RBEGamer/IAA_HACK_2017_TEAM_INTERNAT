@@ -1,0 +1,19 @@
+{
+  "name": "test",
+  "version": "1.0.0",
+  "description": "test",
+  "main": "index.js",
+  "dependencies": {
+    "nanoleaf-aurora-client": "^1.1.4"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "start": "node main.js"
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "tet"
+  ],
+  "author": "Emre Sahin",
+  "license": "ISC"
+}
