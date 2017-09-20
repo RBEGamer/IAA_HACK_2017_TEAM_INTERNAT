@@ -4,7 +4,7 @@
 <body>
 
 <div class="maiboard">
-	<div id="output">0m</div>
+	<div id="output">Welcome to Safety Driving</div>
 	<img src="background.png"/>
 </div>
 <div class="notification">
@@ -18,7 +18,8 @@ PREDICTION
 <!--
 #output {
     font-size: 100px;
-    top: 350px;
+    top: 300px;
+    left: 200px;
     position: absolute;
     z-index:0;s
 }
@@ -55,9 +56,26 @@ PREDICTION
   // websocketサーバアドレスおよびポートを指定
   var msg = new WebSocket("ws://iaahakers.mybluemix.net/ws/msg");
   msg.onmessage = function(e) {
+	d = JSON.parse(e.data)
 	
-	$("#output").text(e.data);
-	console.log(e.data);
+
+	$(".prediction").css("display","none")
+	$(".notification").css("display","none")
+	$("#output").css("display","none")
+
+	if(d.query>=100){
+		$("#output").css("display","block")
+		$("#output").text("Risk :"+Math.round(d.query)+"");
+	
+	}else if(d.query<100&&d.query>10){
+		$(".prediction").css("display","block")
+		$(".prediction").text("BE CAREFUL");
+	}else if(d.query<=10){
+		$(".notification").css("display","block")
+		$(".notification").text("CRASHED");
+	}
+
+	
   }
 
   
@@ -67,30 +85,32 @@ PREDICTION
 (function() {
   var pdt = new WebSocket("ws://iaahakers.mybluemix.net/ws/pdt");
   pdt.onmessage = function(e) {
-	if(e.data!=='0'){
+	d = JSON.parse(e.data)
+	if(d.query!=='0'){
 		$(".prediction").css("display","block")
 	}else{
 		$(".prediction").css("display","none")
 	}
-	$(".prediction").text(e.data);
+	$(".prediction").text(d.query);
 	
 	
-	console.log(e.data);
+	console.log(d.query);
   }
 }());
 
 (function() {
   var emg = new WebSocket("ws://iaahakers.mybluemix.net/ws/emg");
   emg.onmessage = function(e) {
-	if(e.data!=='0'){
+	d = JSON.parse(e.data)
+	if(d.query!=='0'){
 		$(".notification").css("display","block")
 	}else{
 		$(".notification").css("display","none")
 	}
-	$(".notification").text(e.data);
+	$(".notification").text(d.query);
 	
 	
-	console.log(e.data);
+	console.log(d.query);
   }
   
 }());
