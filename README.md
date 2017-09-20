@@ -2,7 +2,7 @@
 
 
 # THE CHALLANGE
-
+The challange is really simple. Create a system to communicate with the 
 
 
 # USED HARDWARE
@@ -19,10 +19,17 @@ The controller in our case is the  ESP8266 board. The first idea is to control t
 But we had a time problem, so we used a simple serial connection nad the python-serial package.
 
 # THE GESTURE DETECTION SYSTEM
+For the detection system we are using the Kinect V2 camera. The advantage of this camera is, that we receive three video streams from it. A normal color, a nightvision/ir image and the depth image. The Ir image is very clear at night so the system can detect objects and the gestures very well. A depth stream is the second stream we are using to detect the gestures. With the depth image we can filter to near and to far objects from the ir/color image.
+The image stream will directly feed into a neural network, which is trained to four gestures.
+If a gesture is present in the right area of the image/car the lightbar will receieve a signal to light up.
 
 
 
 
 # USED SOFTWARE
+* Python 2.7
+* libfreenect2
+* pyserial
+* numpy
 
 
