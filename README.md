@@ -11,6 +11,9 @@ The challange is really simple. Create a system to communicate with the
 * ESP8266
 * 8x WS2813 Leds
 
+We had acces to an Nvidia TX2 development board. This board is really small and it fits perfectly to our requirements.
+The KinectV2 processing needs a bigger amount of cpu and gpu speed. We have build the libfreenect2 library with cuda support so we can use the advantages of tegra gpu.
+
 
 # THE LIGHTBAR
 For the user notification, we have decided to use some led warning lights.
@@ -23,13 +26,30 @@ For the detection system we are using the Kinect V2 camera. The advantage of thi
 The image stream will directly feed into a neural network, which is trained to four gestures.
 If a gesture is present in the right area of the image/car the lightbar will receieve a signal to light up.
 
+# THE ADVANCED HUMAN DRIVER WARNING SYSTEM
+So after a bit playing around with the KinectV2 image streams, we want to implement a system for the human driver too.
+
+
+# IBM BLUEMIX WEBUI
+In addition to the lightbar, we have build a simple webinterface with the ibm bluemix nodered grafical programming system.
+With this system it is possible to show the detected gestures. So we can monitor the system while a test drive.
 
 
 
 # USED SOFTWARE
-* Python 2.7
-* libfreenect2
-* pyserial
-* numpy
+* Python 2.7 
+* libfreenect2 (kinect driver)
+* pyserial (for the lightbar)
+* tensorflow (deep learning framework)
 
+
+# IMAGES
+
+### DEPTH IMAGE
+
+### HEAT MAP
+
+### GESTURE DETECTION
+
+### LIGHTBAR
 
